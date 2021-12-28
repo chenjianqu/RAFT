@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 
 class FlowHead(nn.Module):
-    def __init__(self, input_dim=128, hidden_dim=256):
+    def __init__(self, input_dim:int=128, hidden_dim:int=256):
         super(FlowHead, self).__init__()
         self.conv1 = nn.Conv2d(input_dim, hidden_dim, 3, padding=1)
         self.conv2 = nn.Conv2d(hidden_dim, 2, 3, padding=1)
@@ -14,13 +14,13 @@ class FlowHead(nn.Module):
         return self.conv2(self.relu(self.conv1(x)))
 
 class ConvGRU(nn.Module):
-    def __init__(self, hidden_dim=128, input_dim=192+128):
+    def __init__(self, hidden_dim:int=128, input_dim:int=192+128):
         super(ConvGRU, self).__init__()
         self.convz = nn.Conv2d(hidden_dim+input_dim, hidden_dim, 3, padding=1)
         self.convr = nn.Conv2d(hidden_dim+input_dim, hidden_dim, 3, padding=1)
         self.convq = nn.Conv2d(hidden_dim+input_dim, hidden_dim, 3, padding=1)
 
-    def forward(self, h, x):
+    def forward(self, h:torch.Tensor, x:torch.Tensor):
         hx = torch.cat([h, x], dim=1)
 
         z = torch.sigmoid(self.convz(hx))
@@ -31,7 +31,7 @@ class ConvGRU(nn.Module):
         return h
 
 class SepConvGRU(nn.Module):
-    def __init__(self, hidden_dim=128, input_dim=192+128):
+    def __init__(self, hidden_dim:int=128, input_dim:int=192+128):
         super(SepConvGRU, self).__init__()
         self.convz1 = nn.Conv2d(hidden_dim+input_dim, hidden_dim, (1,5), padding=(0,2))
         self.convr1 = nn.Conv2d(hidden_dim+input_dim, hidden_dim, (1,5), padding=(0,2))
@@ -42,7 +42,7 @@ class SepConvGRU(nn.Module):
         self.convq2 = nn.Conv2d(hidden_dim+input_dim, hidden_dim, (5,1), padding=(2,0))
 
 
-    def forward(self, h, x):
+    def forward(self, h:torch.Tensor, x:torch.Tensor):
         # horizontal
         hx = torch.cat([h, x], dim=1)
         z = torch.sigmoid(self.convz1(hx))
@@ -68,7 +68,7 @@ class SmallMotionEncoder(nn.Module):
         self.convf2 = nn.Conv2d(64, 32, 3, padding=1)
         self.conv = nn.Conv2d(128, 80, 3, padding=1)
 
-    def forward(self, flow, corr):
+    def forward(self, flow:torch.Tensor, corr:torch.Tensor):
         cor = F.relu(self.convc1(corr))
         flo = F.relu(self.convf1(flow))
         flo = F.relu(self.convf2(flo))
@@ -86,7 +86,7 @@ class BasicMotionEncoder(nn.Module):
         self.convf2 = nn.Conv2d(128, 64, 3, padding=1)
         self.conv = nn.Conv2d(64+192, 128-2, 3, padding=1)
 
-    def forward(self, flow, corr):
+    def forward(self, flow:torch.Tensor, corr:torch.Tensor):
         cor = F.relu(self.convc1(corr))
         cor = F.relu(self.convc2(cor))
         flo = F.relu(self.convf1(flow))
@@ -97,13 +97,13 @@ class BasicMotionEncoder(nn.Module):
         return torch.cat([out, flow], dim=1)
 
 class SmallUpdateBlock(nn.Module):
-    def __init__(self, args, hidden_dim=96):
+    def __init__(self, args, hidden_dim:int=96):
         super(SmallUpdateBlock, self).__init__()
         self.encoder = SmallMotionEncoder(args)
         self.gru = ConvGRU(hidden_dim=hidden_dim, input_dim=82+64)
         self.flow_head = FlowHead(hidden_dim, hidden_dim=128)
 
-    def forward(self, net, inp, corr, flow):
+    def forward(self, net:torch.Tensor, inp:torch.Tensor, corr:torch.Tensor, flow:torch.Tensor):
         motion_features = self.encoder(flow, corr)
         inp = torch.cat([inp, motion_features], dim=1)
         net = self.gru(net, inp)
@@ -112,7 +112,7 @@ class SmallUpdateBlock(nn.Module):
         return net, None, delta_flow
 
 class BasicUpdateBlock(nn.Module):
-    def __init__(self, args, hidden_dim=128, input_dim=128):
+    def __init__(self, args, hidden_dim:int=128, input_dim:int=128):
         super(BasicUpdateBlock, self).__init__()
         self.args = args
         self.encoder = BasicMotionEncoder(args)
@@ -124,7 +124,7 @@ class BasicUpdateBlock(nn.Module):
             nn.ReLU(inplace=True),
             nn.Conv2d(256, 64*9, 1, padding=0))
 
-    def forward(self, net, inp, corr, flow, upsample=True):
+    def forward(self, net:torch.Tensor, inp:torch.Tensor, corr:torch.Tensor, flow:torch.Tensor, upsample:bool=True):
         motion_features = self.encoder(flow, corr)
         inp = torch.cat([inp, motion_features], dim=1)
 

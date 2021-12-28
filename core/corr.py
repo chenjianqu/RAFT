@@ -10,7 +10,7 @@ except:
 
 
 class CorrBlock:
-    def __init__(self, fmap1, fmap2, num_levels=4, radius=4):
+    def __init__(self, fmap1:torch.Tensor, fmap2:torch.Tensor, num_levels:int=4, radius:int=4):
         self.num_levels = num_levels
         self.radius = radius
         self.corr_pyramid = []
@@ -26,7 +26,7 @@ class CorrBlock:
             corr = F.avg_pool2d(corr, 2, stride=2)
             self.corr_pyramid.append(corr)
 
-    def __call__(self, coords):
+    def __call__(self, coords:torch.Tensor):
         r = self.radius
         coords = coords.permute(0, 2, 3, 1)
         batch, h1, w1, _ = coords.shape
@@ -36,13 +36,13 @@ class CorrBlock:
             corr = self.corr_pyramid[i]
             dx = torch.linspace(-r, r, 2*r+1, device=coords.device)
             dy = torch.linspace(-r, r, 2*r+1, device=coords.device)
-            delta = torch.stack(torch.meshgrid(dy, dx), axis=-1)
+            delta = torch.stack(torch.meshgrid(dy, dx), dim=-1)
 
             centroid_lvl = coords.reshape(batch*h1*w1, 1, 1, 2) / 2**i
             delta_lvl = delta.view(1, 2*r+1, 2*r+1, 2)
             coords_lvl = centroid_lvl + delta_lvl
 
-            corr = bilinear_sampler(corr, coords_lvl)
+            corr = bilinear_sampler(corr, coords_lvl)[0]
             corr = corr.view(batch, h1, w1, -1)
             out_pyramid.append(corr)
 
@@ -50,7 +50,7 @@ class CorrBlock:
         return out.permute(0, 3, 1, 2).contiguous().float()
 
     @staticmethod
-    def corr(fmap1, fmap2):
+    def corr(fmap1:torch.Tensor, fmap2:torch.Tensor):
         batch, dim, ht, wd = fmap1.shape
         fmap1 = fmap1.view(batch, dim, ht*wd)
         fmap2 = fmap2.view(batch, dim, ht*wd) 
@@ -61,7 +61,7 @@ class CorrBlock:
 
 
 class AlternateCorrBlock:
-    def __init__(self, fmap1, fmap2, num_levels=4, radius=4):
+    def __init__(self, fmap1:torch.Tensor, fmap2:torch.Tensor, num_levels:int=4, radius:int=4):
         self.num_levels = num_levels
         self.radius = radius
 
@@ -71,7 +71,7 @@ class AlternateCorrBlock:
             fmap2 = F.avg_pool2d(fmap2, 2, stride=2)
             self.pyramid.append((fmap1, fmap2))
 
-    def __call__(self, coords):
+    def __call__(self, coords:torch.Tensor):
         coords = coords.permute(0, 2, 3, 1)
         B, H, W, _ = coords.shape
         dim = self.pyramid[0][0].shape[1]

@@ -16,7 +16,7 @@ from utils.augmentor import FlowAugmentor, SparseFlowAugmentor
 
 
 class FlowDataset(data.Dataset):
-    def __init__(self, aug_params=None, sparse=False):
+    def __init__(self, aug_params=None, sparse:bool=False):
         self.augmentor = None
         self.sparse = sparse
         if aug_params is not None:
@@ -31,7 +31,7 @@ class FlowDataset(data.Dataset):
         self.image_list = []
         self.extra_info = []
 
-    def __getitem__(self, index):
+    def __getitem__(self, index:int):
 
         if self.is_test:
             img1 = frame_utils.read_gen(self.image_list[index][0])

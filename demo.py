@@ -59,7 +59,8 @@ def demo(args):
             padder = InputPadder(image1.shape)
             image1, image2 = padder.pad(image1, image2)
 
-            flow_low, flow_up = model(image1, image2, iters=20, test_mode=True)
+            #flow_low, flow_up = model(image1, image2, iters=20, test_mode=True)
+            flow_up = model(image1, image2, iters=20, test_mode=True)[-1]
             viz(image1, flow_up)
 
 
