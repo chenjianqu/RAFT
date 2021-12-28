@@ -78,3 +78,10 @@ You can optionally use our alternate (efficent) implementation by compiling the 
 cd alt_cuda_corr && python setup.py install && cd ..
 ```
 and running `demo.py` and `evaluate.py` with the `--alternate_corr` flag Note, this implementation is somewhat slower than all-pairs, but uses significantly less GPU memory during the forward pass.
+
+
+## Export Libtorch Model
+The script `export_torchscript.py` is used to export a torchscript model. 
+```shell
+python export_torchscript.py --model=models/xxx.pth --export="xx.pt"
+```

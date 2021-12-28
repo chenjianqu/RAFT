@@ -18,6 +18,8 @@ if __name__ == '__main__':
     parser.add_argument('--small', action='store_true', help='use small model')
     parser.add_argument('--mixed_precision', action='store_true', help='use mixed precision')
     parser.add_argument('--alternate_corr', action='store_true', help='use efficent correlation implementation')
+    parser.add_argument('--export',default="kitti.pt", help="export torchscript model")
+
     args = parser.parse_args()
 
     model = torch.nn.DataParallel(RAFT(args))
@@ -28,5 +30,5 @@ if __name__ == '__main__':
     model.eval()
 
     trace_model = torch.jit.script(model)
-    trace_model.save("kitti.pt")
+    trace_model.save(args.export)
 

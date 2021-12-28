@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="cede3d0f-3e9c-48d9-b813-e08e4b95b298" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/corr.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/corr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/raft.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/raft.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/utils/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kitti.pt" beforeDir="false" afterPath="$PROJECT_DIR$/kitti.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/export_torchscript.py" beforeDir="false" afterPath="$PROJECT_DIR$/export_torchscript.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
