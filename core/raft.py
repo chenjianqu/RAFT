@@ -69,6 +69,7 @@ class RAFT(nn.Module):
         coords0 = coords_grid(N, H//8, W//8, device=img.device)
         coords1 = coords_grid(N, H//8, W//8, device=img.device)
 
+
         # optical flow computed as difference: flow = coords1 - coords0
         return coords0, coords1
 
@@ -118,7 +119,7 @@ class RAFT(nn.Module):
 
         coords0, coords1 = self.initialize_flow(image1)
 
-        if flow_init is not None:
+        if flow_init.shape[0]>0:
             coords1 = coords1 + flow_init
 
         flow_predictions = []

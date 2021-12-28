@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cede3d0f-3e9c-48d9-b813-e08e4b95b298" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/export_torchscript.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/corr.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/corr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/datasets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/extractor.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/extractor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/raft.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/raft.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/update.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/update.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/utils/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/demo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kitti.pt" beforeDir="false" afterPath="$PROJECT_DIR$/kitti.pt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

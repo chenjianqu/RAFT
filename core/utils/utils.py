@@ -73,9 +73,13 @@ def bilinear_sampler(img:torch.Tensor, coords:torch.Tensor, mode:str='bilinear',
     return [img]
 
 
+def stack(x:typing.List[torch.Tensor],dim:int)->torch.Tensor:
+    return torch.stack(x,dim=dim)
+
 def coords_grid(batch:int, ht:int, wd:int, device:torch.device)->torch.Tensor:
     coords = torch.meshgrid(torch.arange(ht, device=device), torch.arange(wd, device=device))
-    coords = torch.stack(coords[::-1], dim=0).float()
+    coords = stack([coords[1],coords[0]], dim=0).float()
+
     return coords[None].repeat(batch, 1, 1, 1)
 
 

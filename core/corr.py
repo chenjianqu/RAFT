@@ -30,6 +30,7 @@ class CorrBlock:
         r = self.radius
         coords = coords.permute(0, 2, 3, 1)
         batch, h1, w1, _ = coords.shape
+        #print(coords.shape)
 
         out_pyramid = []
         for i in range(self.num_levels):
